@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registro de Creador</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #44916F;
+            --primary-hover: #377a5d;
+            --secondary-color: #221e0a;
+            --accent-color: #377a5d;
+            --accent-light: #d7ff85;
+            --light-bg: #f5f9f0;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --text-primary: #333333;
+            --text-secondary: #07200d;
+            --border-light: #e2e8de;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            color: var(--text-primary);
+        }
+        
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 0.75rem 2rem;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+            text-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-dark .navbar-brand {
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-dark .navbar-nav .nav-link {
+            color: var(--text-secondary) !important;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+            background-color: rgba(77, 247, 9, 0.08);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-top: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: var(--text-secondary);
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+            padding: 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .card-header h3 {
+            margin-bottom: 0;
+            font-size: 1.5rem;
+        }
+        
+        .btn-success {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(77, 247, 9, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(77, 247, 9, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c7db14;
+            border-color: #c7db14;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(199, 219, 20, 0.2);
+            color: var(--text-secondary);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(77, 247, 9, 0.25);
+        }
+        
+        .container {
+            max-width: 800px;
+        }
+        
+        h1.text-center {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-group label i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .form-control {
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        
+        input[type="date"].form-control {
+            padding: 0.5rem 0.75rem;
+        }
+        
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234df709' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 1.25rem;
+            }
+            
+            .btn-lg {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Animation for form elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            animation: fadeIn 0.3s ease forwards;
+            animation-delay: calc(var(--animation-order) * 0.1s);
+            opacity: 0;
+        }
+        
+        .form-group:nth-child(1) { --animation-order: 1; }
+        .form-group:nth-child(2) { --animation-order: 2; }
+        .form-group:nth-child(3) { --animation-order: 3; }
+        .form-group:nth-child(4) { --animation-order: 4; }
+        .form-group:nth-child(5) { --animation-order: 5; }
+        .form-group:nth-child(6) { --animation-order: 6; }
+        .form-group:nth-child(7) { --animation-order: 7; }
+        
+        /* Improve focus states for accessibility */
+        a:focus, button:focus, input:focus, select:focus, textarea:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-users-cog mr-2"></i>Gestión de Creadores
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/creadores}">
+                            <i class="fas fa-users mr-1"></i>Creadores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/proyectos}">
+                            <i class="fas fa-project-diagram mr-1"></i>Proyectos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3><i class="fas fa-plus-circle mr-2"></i>Registro de Creador</h3>
+            </div>
+            <div class="card-body p-4">
+                <form th:action="@{/creadores}" th:object="${creador}" method="POST">
+                    <div class="form-group">
+                        <label><i class="fas fa-user mr-1"></i>Nombres del Creador:</label>
+                        <input type="text" name="nombres" th:field="*{nombres}" class="form-control" 
+                               placeholder="Ingrese los nombres del creador" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-user mr-1"></i>Apellidos del Creador:</label>
+                        <input type="text" name="apellidos" th:field="*{apellidos}" class="form-control" 
+                               placeholder="Ingrese los apellidos del creador" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope mr-1"></i>Correo Electrónico:</label>
+                        <input type="email" name="correo" th:field="*{correo}" class="form-control" 
+                               placeholder="Correo del creador" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-phone mr-1"></i>Teléfono:</label>
+                        <input type="text" name="telefono" th:field="*{telefono}" class="form-control" 
+                               placeholder="Teléfono del creador">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-briefcase mr-1"></i>Rol:</label>
+                        <input type="text" name="rol" th:field="*{rol}" class="form-control" 
+                               placeholder="Rol del creador (ej. Desarrollador Principal, Diseñador)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-project-diagram mr-1"></i>Proyecto:</label>
+                        <select name="proyecto" th:field="*{proyecto}" class="form-control" required>
+                            <option value="">Seleccione un proyecto</option>
+                            <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.titulo}"></option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt mr-1"></i>Fecha de Vinculación:</label>
+                        <input type="date" name="fechaVinculacion" th:field="*{fechaVinculacion}" class="form-control" required>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn btn-success btn-lg px-5">
+                            <i class="fas fa-save mr-2"></i>Guardar
+                        </button>
+                        <a th:href="@{/creadores}" class="btn btn-secondary btn-lg px-5 ml-3">
+                            <i class="fas fa-arrow-left mr-2"></i>Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

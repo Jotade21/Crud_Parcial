@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Creador</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #44916F;
+      --primary-hover: #377a5d;
+      --secondary-color: #221e0a;
+      --accent-color: #8bf006;
+      --accent-light: #d7ff85;
+      --light-bg: #f5f9f0;
+      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --text-primary: #333333;
+      --text-secondary: #07200d;
+      --success-color: #10B981;
+      --border-light: #e2e8de;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+    }
+    
+    .navbar {
+      background-color: white !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 0.75rem 2rem;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary-color) !important;
+      text-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+    }
+    
+    .nav-link {
+      color: var(--text-secondary) !important;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      margin: 0 0.25rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary-color) !important;
+      background-color: rgba(68, 145, 111, 0.08);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+    }
+    
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1.25rem;
+      border-bottom: none;
+      position: relative;
+    }
+    
+    .card-header h3 {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 0;
+    }
+    
+    .card-body {
+      padding: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .form-control {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      box-shadow: 0 0 0 3px rgba(68, 145, 111, 0.2);
+      border-color: var(--primary-color);
+    }
+    
+    .form-select {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+    
+    .form-select:focus {
+      box-shadow: 0 0 0 3px rgba(68, 145, 111, 0.2);
+      border-color: var(--primary-color);
+    }
+    
+    .btn {
+      border-radius: 8px;
+      font-weight: 500;
+      padding: 0.6rem 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 6px rgba(68, 145, 111, 0.2);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(68, 145, 111, 0.3);
+    }
+    
+    .btn-secondary {
+      background-color: #e9ecef;
+      border-color: #e9ecef;
+      color: var(--text-secondary);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #dee2e6;
+      border-color: #dee2e6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Animation for the card */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+    
+    /* Improve focus states for accessibility */
+    a:focus, button:focus, input:focus, select:focus, textarea:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-users-cog me-2"></i>Gestión de creadores
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/proyectos}">
+              <i class="fas fa-project-diagram me-1"></i> Proyectos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/creadores}">
+              <i class="fas fa-users me-1"></i> Creadores
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header text-center">
+            <h3><i class="fas fa-edit me-2"></i>Editar Creador</h3>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/creadores/editar/{id}(id=${creador.id})}" th:object="${creador}" method="POST">
+              <input type="hidden" th:field="*{id}">
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="nombres" class="form-label">Nombres:</label>
+                    <input type="text" th:field="*{nombres}" class="form-control" id="nombres" required>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="apellidos" class="form-label">Apellidos:</label>
+                    <input type="text" th:field="*{apellidos}" class="form-control" id="apellidos" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo:</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-envelope"></i></span>
+                  <input type="email" th:field="*{correo}" class="form-control" id="correo" required>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono:</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-phone"></i></span>
+                  <input type="text" th:field="*{telefono}" class="form-control" id="telefono">
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="rol" class="form-label">Rol:</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-user-tag"></i></span>
+                  <input type="text" th:field="*{rol}" class="form-control" id="rol" required placeholder="Ej: Desarrollador Principal, Diseñador">
+                </div>
+                <small class="text-muted">Separe múltiples roles con comas</small>
+              </div>
+              
+              <div class="mb-3">
+                <label for="proyecto" class="form-label">Proyecto:</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-project-diagram"></i></span>
+                  <select th:field="*{proyecto}" class="form-select" id="proyecto">
+                    <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.titulo}"></option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <label for="fechaVinculacion" class="form-label">Fecha de Vinculación:</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-calendar-alt"></i></span>
+                  <input type="date" th:field="*{fechaVinculacion}" class="form-control" id="fechaVinculacion" required>
+                </div>
+              </div>
+              
+              <div class="d-flex justify-content-center gap-3 mt-4">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save me-2"></i>Guardar Cambios
+                </button>
+                <a th:href="@{/creadores}" class="btn btn-secondary">
+                  <i class="fas fa-arrow-left me-2"></i>Cancelar
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

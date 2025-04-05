@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de creadores</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #44916F;
+      --primary-hover: #377a5d;
+      --secondary-color: #221e0a;
+      --accent-color: #2cac65;
+      --accent-light: #d7ff85;
+      --light-bg: #f5f9f0;
+      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --text-primary: #333333;
+      --text-secondary: #07200d;
+      --success-color: #10B981;
+      --border-light: #e2e8de;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+    }
+    
+    .navbar {
+      background-color: white !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 0.75rem 2rem;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary-color) !important;
+      text-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+    }
+    
+    .nav-link {
+      color: var(--text-secondary) !important;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      margin: 0 0.25rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary-color) !important;
+      background-color: rgba(68, 145, 111, 0.08);
+    }
+    
+    .page-header {
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--accent-light);
+    }
+    
+    .page-title {
+      font-weight: 700;
+      color: var(--secondary-color);
+      position: relative;
+    }
+    
+    .page-title:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      font-weight: 500;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(68, 145, 111, 0.2);
+      transition: all 0.3s ease;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(68, 145, 111, 0.3);
+    }
+    
+    .table-container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+    
+    .table {
+      margin-bottom: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .table thead th {
+      background-color: rgba(68, 145, 111, 0.15);
+      color: var(--text-secondary);
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem;
+    }
+    
+    .table tbody td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .table tbody tr:hover {
+      background-color: rgba(68, 145, 111, 0.05);
+    }
+    
+    .btn {
+      border-radius: 8px;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-edit {
+      background-color: var(--accent-color);
+      color: var(--text-secondary);
+      border: none;
+    }
+    
+    .btn-edit:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(68, 145, 111, 0.2);
+    }
+    .btn-danger {
+  background-color: #dc3545;  /* Rojo Bootstrap */
+  border-color: #a71d2a;
+  color: white;
+}
+    
+    .btn-danger:hover {
+      background-color: #c7db14;
+      border-color: #c7db14;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(199, 219, 20, 0.2);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .badge {
+      font-weight: 500;
+      padding: 0.35em 0.65em;
+      border-radius: 6px;
+      font-size: 0.75em;
+    }
+    
+    .bg-primary {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+    }
+    
+    .bg-success {
+      background-color: var(--success-color) !important;
+    }
+    
+    .bg-secondary {
+      background-color: var(--accent-color) !important;
+      color: var(--text-secondary) !important;
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .contact-info a {
+      color: var(--primary-hover);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .contact-info a:hover {
+      color: var(--primary-color);
+    }
+    
+    .contact-info span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .creator-name {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      .table-container {
+        padding: 1rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        gap: 6px;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start !important;
+      }
+    }
+    
+    /* Animation for new items */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .table tbody tr {
+      animation: fadeIn 0.3s ease forwards;
+    }
+    
+    /* Improve focus states for accessibility */
+    a:focus, button:focus, input:focus, select:focus, textarea:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-users-cog me-2"></i>Gestión de creadores
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/proyectos}">
+              <i class="fas fa-project-diagram me-1"></i> Proyectos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/creadores}">
+              <i class="fas fa-users me-1"></i> Creadores
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <h1 class="page-title h3">Lista de creadores</h1>
+      <a th:href="@{/creadores/nuevo}" class="btn btn-primary">
+        <i class="fas fa-plus me-1"></i> Nuevo creador
+      </a>
+    </div>
+
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Contacto</th>
+            <th>Rol</th>
+            <th>Proyecto</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="creador : ${creadores}">
+            <td>
+              <span th:text="${creador.nombres + ' ' + creador.apellidos}" class="creator-name"></span>
+            </td>
+            <td>
+              <div class="contact-info">
+                <a th:href="'mailto:' + ${creador.correo}">
+                  <i class="fas fa-envelope"></i>
+                  <span th:text="${creador.correo}"></span>
+                </a>
+                <span th:if="${creador.telefono != null and creador.telefono != ''}">
+                  <i class="fas fa-phone"></i>
+                  <span th:text="${creador.telefono}"></span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <span th:each="rol, iterStat : ${#strings.arraySplit(creador.rol, ',')}" 
+                   th:class="${#strings.trim(rol) == 'Desarrollador Principal'} ? 'badge bg-primary me-1' 
+                   : (${#strings.trim(rol) == 'Diseñador'} ? 'badge bg-success me-1' : 'badge bg-secondary me-1')"
+                   th:text="${#strings.trim(rol)}">Rol</span>
+            </td>
+            <td th:text="${creador.proyecto.titulo}"></td>
+            <td th:text="${#temporals.format(creador.fechaVinculacion, 'dd/MM/yyyy')}"></td>
+            <td>
+              <div class="action-buttons">
+                <a th:href="@{/creadores/editar/{id}(id=${creador.id})}" class="btn btn-edit">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a th:href="@{/creadores/eliminar/{id}(id=${creador.id})}" class="btn btn-danger">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
